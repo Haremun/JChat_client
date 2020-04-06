@@ -1,31 +1,38 @@
 package com.bieganski.jchat_client.connection;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
+import com.bieganski.jchat_client.ui.Ui;
+import com.bieganski.jchat_client.utils.WebAddress;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.Socket;
 
 public class ConnectionManager extends Connection {
 
-    public void run() {
+    private Ui userUi;
+    private MessageWriter messageWriter;
+
+    public ConnectionManager(Ui userUi) {
+        this.userUi = userUi;
+    }
+
+    public void connect(WebAddress serverAddress) {
         Thread connectionThread = new Thread(
                 new TcpConnector(
-                        new WebAddress("localhost", 8090), this)
+                        serverAddress, this)
                 , "Connection thread");
         connectionThread.start();
     }
 
     @Override
+    public void sendMessage(String message) throws IOException {
+        messageWriter.writeMessage(message);
+    }
+
+    @Override
     protected void onConnected(Socket socket) {
-        System.out.println("Connected");
-        DataOutputStream outToServer = null;
         try {
-            outToServer = new DataOutputStream(socket.getOutputStream());
-            BufferedReader inFromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            outToServer.writeBytes("Yo!\n");
-            System.out.println("Waiting for server response...");
-            System.out.println(inFromServer.readLine());
+            userUi.printMessage("Connected to server");
+            messageWriter = new MessageWriter(socket);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -34,5 +41,10 @@ public class ConnectionManager extends Connection {
     @Override
     protected void onConnectionError(String message) {
         System.out.println(message);
+    }
+
+    @Override
+    protected void onReceivedMessage(String message) {
+        userUi.printMessage(message);
     }
 }

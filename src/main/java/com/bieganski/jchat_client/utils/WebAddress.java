@@ -1,6 +1,6 @@
-package com.bieganski.jchat_client.connection;
+package com.bieganski.jchat_client.utils;
 
-class WebAddress {
+public class WebAddress {
     private final String address;
     private final int port;
 
