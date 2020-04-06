@@ -8,7 +8,7 @@
   <artifactId>jchat_client</artifactId>
   <version>0.1</version>
 
-  <name>JChat_client</name>
+  <name>JChat</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,14 +18,15 @@
     <maven.compiler.target>${project.java.version}</maven.compiler.target>
     <maven.compiler.encoding>${project.build.sourceEncoding}</maven.compiler.encoding>
     <maven.resources.encoding>${project.build.sourceEncoding}</maven.resources.encoding>
-    <version.maven>3.5.3</version.maven>
+    <version.maven>3.6.2</version.maven>
+    <version.testng>7.1.0</version.testng>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
-      <version>7.0.0</version>
+      <version>${version.testng}</version>
       <scope>test</scope>
     </dependency>
  </dependencies>
