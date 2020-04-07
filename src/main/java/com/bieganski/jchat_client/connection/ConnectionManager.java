@@ -9,7 +9,7 @@ import java.net.Socket;
 public class ConnectionManager extends Connection {
 
     private Ui userUi;
-    private MessageWriter messageWriter;
+    private Thread tcpSender;
 
     public ConnectionManager(Ui userUi) {
         this.userUi = userUi;
@@ -24,15 +24,12 @@ public class ConnectionManager extends Connection {
     }
 
     @Override
-    public void sendMessage(String message) throws IOException {
-        messageWriter.writeMessage(message);
-    }
-
-    @Override
     protected void onConnected(Socket socket) {
         try {
             userUi.printMessage("Connected to server");
-            messageWriter = new JsonMsgWriter(socket);
+            tcpSender = new Thread(new TcpSender(new JsonMsgWriter(socket), userUi)
+                    , "Sender thread");
+            tcpSender.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
