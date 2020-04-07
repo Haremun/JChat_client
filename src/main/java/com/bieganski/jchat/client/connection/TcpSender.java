@@ -1,8 +1,10 @@
 package com.bieganski.jchat.client.connection;
 
 import com.bieganski.jchat.client.ui.Ui;
+import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 
+@Slf4j
 public class TcpSender implements Runnable {
 
   private final MessageWriter messageWriter;
@@ -19,7 +21,8 @@ public class TcpSender implements Runnable {
       try {
         messageWriter.writeMessage(userUi.getUserInput());
       } catch (IOException e) {
-        e.printStackTrace();
+        userUi.printMessage("Error writing message");
+        log.error(e.getMessage());
       }
     }
   }

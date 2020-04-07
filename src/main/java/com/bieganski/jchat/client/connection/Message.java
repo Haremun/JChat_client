@@ -1,8 +1,10 @@
 package com.bieganski.jchat.client.connection;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 class Message {
   private int messageType;
   private String author;

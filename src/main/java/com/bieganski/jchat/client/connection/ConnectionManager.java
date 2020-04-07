@@ -2,9 +2,11 @@ package com.bieganski.jchat.client.connection;
 
 import com.bieganski.jchat.client.ui.Ui;
 import com.bieganski.jchat.client.utils.WebAddress;
+import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.net.Socket;
 
+@Slf4j
 public class ConnectionManager extends Connection {
 
   private Ui userUi;
@@ -31,17 +33,20 @@ public class ConnectionManager extends Connection {
           "Sender thread");
       tcpSender.start();
     } catch (IOException e) {
-      e.printStackTrace();
+      userUi.printMessage("Connection error");
+      log.error(e.getMessage());
     }
   }
 
   @Override
   protected void onConnectionError(String message) {
     userUi.printMessage("Server error: " + message);
+    log.error(message);
   }
 
   @Override
   protected void onReceivedMessage(String message) {
     userUi.printMessage(message);
+    log.debug("Received message: " + message);
   }
 }
