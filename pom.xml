@@ -18,8 +18,10 @@
     <maven.compiler.target>${project.java.version}</maven.compiler.target>
     <maven.compiler.encoding>${project.build.sourceEncoding}</maven.compiler.encoding>
     <maven.resources.encoding>${project.build.sourceEncoding}</maven.resources.encoding>
+    <version.plugin.maven.enforcer>3.0.0-M3</version.plugin.maven.enforcer>
     <version.maven>3.6.2</version.maven>
     <version.testng>7.1.0</version.testng>
+    <version.plugin.checkstyle>3.1.1</version.plugin.checkstyle>
   </properties>
 
   <dependencies>
@@ -71,11 +73,29 @@
           <configuration>
             <archive>
               <manifest>
-                <mainClass>com.bieganski.jchat_client.App</mainClass>
+                <mainClass>com.bieganski.jchat.client.Main</mainClass>
               </manifest>
             </archive>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>${version.plugin.checkstyle}</version>
+          <configuration>
+            <linkXRef>false</linkXRef>
+            <configLocation>google_checks.xml</configLocation>
+            <consoleOutput>true</consoleOutput>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
       </plugins>
     </pluginManagement>
   </build>
