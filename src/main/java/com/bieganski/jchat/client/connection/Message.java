@@ -11,6 +11,11 @@ class Message {
   private String date;
   private String message;
 
+  //TODO wiki side for messages
+  /**
+   * Check wiki for information about messages.
+   * @see <a href="https://google.pl/">Wiki</a>
+   */
   private Message() {
   }
 

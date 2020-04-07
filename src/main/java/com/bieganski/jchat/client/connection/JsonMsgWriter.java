@@ -4,11 +4,10 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
-
 import java.io.IOException;
 import java.net.Socket;
 import java.time.LocalDateTime;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class JsonMsgWriter extends MessageWriter {
@@ -32,5 +31,10 @@ public class JsonMsgWriter extends MessageWriter {
         .build();
     log.debug("Message to send: " + message.toString());
     objectMapper.writeValue(outputStream, message);
+  }
+
+  @Override
+  void writeMessage(Message msg) throws IOException {
+    objectMapper.writeValue(outputStream, msg);
   }
 }

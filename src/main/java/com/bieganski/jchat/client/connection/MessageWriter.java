@@ -16,6 +16,8 @@ abstract class MessageWriter {
 
   abstract void writeMessage(String msg) throws IOException;
 
+  abstract void writeMessage(Message msg) throws IOException;
+
   boolean isShutDown() {
     return socket.isOutputShutdown();
   }

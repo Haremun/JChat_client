@@ -2,9 +2,9 @@ package com.bieganski.jchat.client.connection;
 
 import com.bieganski.jchat.client.ui.Ui;
 import com.bieganski.jchat.client.utils.WebAddress;
-import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.net.Socket;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ConnectionManager extends Connection {
@@ -29,9 +29,16 @@ public class ConnectionManager extends Connection {
   protected void onConnected(Socket socket) {
     try {
       userUi.printMessage("Connected to server");
-      tcpSender = new Thread(new TcpSender(new JsonMsgWriter(socket), userUi),
+      JsonMsgWriter msgWriter = new JsonMsgWriter(socket);
+      tcpSender = new Thread(new TcpSender(msgWriter, userUi),
           "Sender thread");
       tcpSender.start();
+      msgWriter.writeMessage(
+          new Message.MessageBuilder()
+          .messageType(1)
+          .author("Kamil")
+          .build());
+
     } catch (IOException e) {
       userUi.printMessage("Connection error");
       log.error(e.getMessage());
