@@ -24,11 +24,14 @@ class TcpConnector implements Runnable {
             isConnected = true;
             connectionCallback.onConnected(socket);
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            while (isConnected) {
-                connectionCallback.onReceivedMessage(reader.readLine());
+            String message;
+            while ((message = reader.readLine()) != null && isConnected) {
+                connectionCallback.onReceivedMessage(message);
             }
         } catch (IOException e) {
             connectionCallback.onConnectionError(e.getMessage());
+        } finally {
+            connectionCallback.onConnectionError("Connection closed");
         }
     }
 

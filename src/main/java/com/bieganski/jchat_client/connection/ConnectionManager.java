@@ -32,7 +32,7 @@ public class ConnectionManager extends Connection {
     protected void onConnected(Socket socket) {
         try {
             userUi.printMessage("Connected to server");
-            messageWriter = new MessageWriter(socket);
+            messageWriter = new JsonMsgWriter(socket);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -40,7 +40,7 @@ public class ConnectionManager extends Connection {
 
     @Override
     protected void onConnectionError(String message) {
-        System.out.println(message);
+        userUi.printMessage("Server error: " + message);
     }
 
     @Override
