@@ -1,16 +1,24 @@
 package com.bieganski.jchat.client.ui;
 
 /**
- * User interface to communicate with an application.
+ * User interface to communicate with application.
  */
 public interface Ui {
 
   /**
    * Prints message on user interface.
    *
-   * @param message - message to print
+   * @param message message to print
    */
   void printMessage(Object message);
+
+  /**
+   * Prints message on user interface with color.
+   *
+   * @param message message to print
+   * @param color   message color
+   */
+  void printMessage(Object message, Color color);
 
   /**
    * Waits for user input.

@@ -1,5 +1,6 @@
 package com.bieganski.jchat.client.connection;
 
+import com.bieganski.jchat.client.utils.UserProperties;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
@@ -7,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.net.Socket;
 import java.time.LocalDateTime;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -21,16 +23,22 @@ public class JsonMsgWriter extends MessageWriter {
     objectMapper = new ObjectMapper(jsonFactory);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   void writeMessage(String msg) throws IOException {
-    Message message = new Message.MessageBuilder()
-        .messageType(0)
-        .author("Kamil")
-        .date(LocalDateTime.now().toString())
-        .message(msg)
-        .build();
-    log.debug("Message to send: " + message.toString());
-    objectMapper.writeValue(outputStream, message);
+    if (!msg.isEmpty()) {
+      Message message = new Message.MessageBuilder()
+          .messageType(0)
+          .author(UserProperties.USER)
+          .receiver(UserProperties.RECEIVER)
+          .date(LocalDateTime.now().toString())
+          .message(msg)
+          .build();
+      log.debug("Message to send: " + message.toString());
+      objectMapper.writeValue(outputStream, message);
+    }
   }
 
   @Override

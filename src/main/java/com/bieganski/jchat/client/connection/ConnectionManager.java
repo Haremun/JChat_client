@@ -1,6 +1,8 @@
 package com.bieganski.jchat.client.connection;
 
+import com.bieganski.jchat.client.ui.Color;
 import com.bieganski.jchat.client.ui.Ui;
+import com.bieganski.jchat.client.utils.UserProperties;
 import com.bieganski.jchat.client.utils.WebAddress;
 import java.io.IOException;
 import java.net.Socket;
@@ -36,7 +38,7 @@ public class ConnectionManager extends Connection {
       msgWriter.writeMessage(
           new Message.MessageBuilder()
           .messageType(1)
-          .author("Kamil")
+          .author(UserProperties.USER)
           .build());
 
     } catch (IOException e) {
@@ -53,7 +55,7 @@ public class ConnectionManager extends Connection {
 
   @Override
   protected void onReceivedMessage(String message) {
-    userUi.printMessage(message);
+    userUi.printMessage(message, Color.GREEN);
     log.debug("Received message: " + message);
   }
 }

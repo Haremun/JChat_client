@@ -8,6 +8,7 @@ import lombok.ToString;
 class Message {
   private int messageType;
   private String author;
+  private String receiver;
   private String date;
   private String message;
 
@@ -22,6 +23,7 @@ class Message {
   static class MessageBuilder {
     private int messageType;
     private String author;
+    private String receiver;
     private String date;
     private String message;
 
@@ -32,6 +34,11 @@ class Message {
 
     MessageBuilder author(String author) {
       this.author = author;
+      return this;
+    }
+
+    MessageBuilder receiver(String receiver) {
+      this.receiver = receiver;
       return this;
     }
 
@@ -49,6 +56,7 @@ class Message {
       Message messageObj = new Message();
       messageObj.messageType = this.messageType;
       messageObj.author = this.author;
+      messageObj.receiver = this.receiver;
       messageObj.date = this.date;
       messageObj.message = this.message;
       return messageObj;

@@ -14,6 +14,11 @@ abstract class MessageWriter {
     this.socket = socket;
   }
 
+  /**
+   * Sends not empty string to server.
+   * @param msg - message to send. Can't be empty or null.
+   * @throws IOException
+   */
   abstract void writeMessage(String msg) throws IOException;
 
   abstract void writeMessage(Message msg) throws IOException;

@@ -5,8 +5,10 @@ import java.io.PrintStream;
 import java.util.Scanner;
 
 public class ConsoleUi implements Ui {
-  Scanner scanner;
-  PrintStream out;
+  private final CommandProcessor commandProcessor = new CommandProcessor();
+  private final BashBrush bashBrush = new BashBrush();
+  private final Scanner scanner;
+  private final PrintStream out;
 
   public ConsoleUi(PrintStream out, InputStream in) {
     this.scanner = new Scanner(in);
@@ -19,7 +21,27 @@ public class ConsoleUi implements Ui {
   }
 
   @Override
+  public void printMessage(Object message, Color color) {
+    out.println(bashBrush.colorString(message, color));
+  }
+
+  /**
+   * Waits for user input. If first symbol is '/' string is processed as command.
+   * Prints message after processing command.
+   *
+   * @return user input or empty string if user entered command
+   */
+  @Override
   public String getUserInput() {
-    return scanner.nextLine();
+    String userInput = scanner.nextLine();
+    if (userInput.charAt(0) == '/') {
+      String result = commandProcessor.processCommand(userInput);
+      if (!result.isEmpty()) {
+        printMessage(result, Color.BLUE);
+      }
+      return "";
+    } else {
+      return userInput;
+    }
   }
 }
