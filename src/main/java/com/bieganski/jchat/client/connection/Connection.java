@@ -19,5 +19,5 @@ public abstract class Connection {
 
   protected abstract void onConnectionError(String message);
 
-  protected abstract void onReceivedMessage(String message);
+  protected abstract void onReceivedMessage(Message message);
 }

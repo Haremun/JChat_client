@@ -1,6 +1,5 @@
 package com.bieganski.jchat.client.connection;
 
-import java.io.Closeable;
 import java.io.IOException;
 
 class TcpListener implements Runnable {
@@ -18,10 +17,10 @@ class TcpListener implements Runnable {
     try {
       while (running) {
         Message message = messageListener.listenForMessage();
-        connectionCallback.onReceivedMessage(message.getMessage());
+        connectionCallback.onReceivedMessage(message);
       }
     } catch (IOException e) {
-      System.err.println(e.getMessage());
+      connectionCallback.onConnectionError("Connection lost");
     }
   }
 

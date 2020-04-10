@@ -44,4 +44,9 @@ public class ConsoleUi implements Ui {
       return userInput;
     }
   }
+
+  @Override
+  public void notifyAboutNewUser(String user) {
+    commandProcessor.addUser(user);
+  }
 }

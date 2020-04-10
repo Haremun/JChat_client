@@ -13,12 +13,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ConnectionManager extends Connection {
 
-  private Ui userUi;
+  private final Ui userUi;
+  private final MessageProcessor messageProcessor;
   private TcpSender tcpSender;
   private TcpListener tcpListener;
 
   public ConnectionManager(Ui userUi) {
     this.userUi = userUi;
+    messageProcessor = new MessageProcessor(userUi);
   }
 
   @Override
@@ -45,16 +47,20 @@ public class ConnectionManager extends Connection {
       new Thread(tcpListener,
           "Listener thread").start();
 
-      msgWriter.writeMessage(
-          new Message.MessageBuilder()
-              .messageType(1)
-              .author(UserProperties.USER)
-              .build());
+      writeWelcomeMessage(msgWriter);
 
     } catch (IOException e) {
       userUi.printMessage("Connection error");
       log.error(e.getMessage());
     }
+  }
+
+  private void writeWelcomeMessage(MessageWriter msgWriter) throws IOException {
+    msgWriter.writeMessage(
+        new Message.MessageBuilder()
+            .messageType(1)
+            .author(UserProperties.USER)
+            .build());
   }
 
   @Override
@@ -66,8 +72,8 @@ public class ConnectionManager extends Connection {
   }
 
   @Override
-  protected void onReceivedMessage(String message) {
-    userUi.printMessage(message, Color.GREEN);
+  protected void onReceivedMessage(Message message) {
+    messageProcessor.process(message);
     log.debug("Received message: " + message);
   }
 }
