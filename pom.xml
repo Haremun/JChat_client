@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.bieganski</groupId>
-  <artifactId>jchat_client</artifactId>
+  <artifactId>jchat.client</artifactId>
   <version>0.1</version>
 
   <name>JChat</name>

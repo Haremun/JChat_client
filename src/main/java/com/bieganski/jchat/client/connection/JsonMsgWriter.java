@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class JsonMsgWriter extends MessageWriter {
-  private ObjectMapper objectMapper;
+  private final ObjectMapper objectMapper;
 
   JsonMsgWriter(Socket socket) throws IOException {
     super(socket);

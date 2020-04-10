@@ -7,7 +7,7 @@ import java.net.Socket;
 
 abstract class MessageWriter {
   protected OutputStream outputStream;
-  private Socket socket;
+  private final Socket socket;
 
   MessageWriter(Socket socket) throws IOException {
     this.outputStream = new DataOutputStream(socket.getOutputStream());

@@ -61,7 +61,5 @@ class Message {
       messageObj.message = this.message;
       return messageObj;
     }
-
-
   }
 }

@@ -4,15 +4,18 @@ import com.bieganski.jchat.client.ui.Color;
 import com.bieganski.jchat.client.ui.Ui;
 import com.bieganski.jchat.client.utils.UserProperties;
 import com.bieganski.jchat.client.utils.WebAddress;
+
 import java.io.IOException;
 import java.net.Socket;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ConnectionManager extends Connection {
 
   private Ui userUi;
-  private Thread tcpSender;
+  private TcpSender tcpSender;
+  private TcpListener tcpListener;
 
   public ConnectionManager(Ui userUi) {
     this.userUi = userUi;
@@ -31,15 +34,22 @@ public class ConnectionManager extends Connection {
   protected void onConnected(Socket socket) {
     try {
       userUi.printMessage("Connected to server");
+
       JsonMsgWriter msgWriter = new JsonMsgWriter(socket);
-      tcpSender = new Thread(new TcpSender(msgWriter, userUi),
-          "Sender thread");
-      tcpSender.start();
+      tcpSender = new TcpSender(msgWriter, userUi);
+      new Thread(tcpSender,
+          "Sender thread").start();
+
+      JsonMsgListener msgListener = new JsonMsgListener(socket.getInputStream());
+      tcpListener = new TcpListener(this, msgListener);
+      new Thread(tcpListener,
+          "Listener thread").start();
+
       msgWriter.writeMessage(
           new Message.MessageBuilder()
-          .messageType(1)
-          .author(UserProperties.USER)
-          .build());
+              .messageType(1)
+              .author(UserProperties.USER)
+              .build());
 
     } catch (IOException e) {
       userUi.printMessage("Connection error");
@@ -50,6 +60,8 @@ public class ConnectionManager extends Connection {
   @Override
   protected void onConnectionError(String message) {
     userUi.printMessage("Server error: " + message);
+    tcpListener.close();
+    tcpSender.close();
     log.error(message);
   }
 

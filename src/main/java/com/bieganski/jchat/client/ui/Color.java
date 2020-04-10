@@ -4,7 +4,7 @@ public enum Color {
   GREEN("\033[0;32m"),
   BLUE("\033[0;34m");
 
-  private String colorHeader;
+  private final String colorHeader;
 
   Color(String colorHeader) {
     this.colorHeader = colorHeader;
