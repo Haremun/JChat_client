@@ -23,6 +23,12 @@ class MessageProcessor {
             Color.BLUE);
         userInterface.notifyAboutNewUser(message.getAuthor());
         break;
+      case 2:
+        userInterface.updateUsers(message.getMessage());
+        break;
+      case 3:
+        userInterface.removeUser(message.getMessage());
+        break;
     }
   }
 }

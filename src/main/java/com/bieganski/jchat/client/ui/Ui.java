@@ -30,4 +30,8 @@ public interface Ui {
   String getUserInput();
 
   void notifyAboutNewUser(String user);
+
+  void updateUsers(String users);
+
+  void removeUser(String user);
 }

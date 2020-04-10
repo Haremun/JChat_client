@@ -2,6 +2,8 @@ package com.bieganski.jchat.client.ui;
 
 import com.bieganski.jchat.client.utils.UserProperties;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,5 +32,9 @@ public class CommandProcessor {
   }
   void removeUser(String user){
     users.remove(user);
+  }
+
+  void setUsers(String users) {
+    this.users = new LinkedList<>(Arrays.asList(users.split(",")));
   }
 }

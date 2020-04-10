@@ -49,4 +49,14 @@ public class ConsoleUi implements Ui {
   public void notifyAboutNewUser(String user) {
     commandProcessor.addUser(user);
   }
+
+  @Override
+  public void updateUsers(String users) {
+    commandProcessor.setUsers(users);
+  }
+
+  @Override
+  public void removeUser(String user) {
+    commandProcessor.removeUser(user);
+  }
 }
