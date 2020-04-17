@@ -9,8 +9,10 @@ import java.util.List;
 
 class CommandProcessor {
   private final List<String> usersCollection;
+  private final SessionProperties sessionProperties;
 
-  CommandProcessor(List<String> usersCollection) {
+  CommandProcessor(List<String> usersCollection, SessionProperties sessionProperties) {
+    this.sessionProperties = sessionProperties;
     this.usersCollection = usersCollection;
   }
 
@@ -19,7 +21,7 @@ class CommandProcessor {
 
     //TODO it's temporary version, remove if
     if (command[0].equals(PRIVATE.getCommand())) {
-      SessionProperties.RECEIVER = command[1];
+      sessionProperties.setReceiver(command[1]);
       return String.format("You are writing to %s", command[1]);
     } else if (command[0].equals(LIST.getCommand())) {
       return String.join("\n", usersCollection);

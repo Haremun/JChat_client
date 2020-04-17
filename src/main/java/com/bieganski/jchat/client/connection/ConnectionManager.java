@@ -45,24 +45,17 @@ public class ConnectionManager extends Connection {
       new Thread(tcpListener,
           "Listener thread").start();
 
-      writeWelcomeMessage(messageWriter);
-
+      connectionCallback.onConnected();
     } catch (IOException e) {
       log.error(e.getMessage());
     }
   }
 
-  private void writeWelcomeMessage(MessageWriter msgWriter) throws IOException {
-    msgWriter.writeMessage(
-        new Message.MessageBuilder()
-            .messageType(1)
-            .author(SessionProperties.USER)
-            .build());
-  }
-
   @Override
   protected void onConnectionError(String message) {
-    tcpListener.close();
+    if (tcpListener != null) {
+      tcpListener.close();
+    }
     log.error(message);
   }
 

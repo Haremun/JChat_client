@@ -2,23 +2,35 @@ package com.bieganski.jchat.client.ui;
 
 import com.bieganski.jchat.client.connection.Connection;
 import com.bieganski.jchat.client.utils.Message;
-import java.io.InputStream;
+import com.bieganski.jchat.client.utils.SessionProperties;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class ConsoleUi implements Ui {
   private final List<String> users = new LinkedList<>();
-  private final CommandProcessor commandProcessor = new CommandProcessor(users);
+  private final CommandProcessor commandProcessor;
   private final MessageProcessor messageProcessor = new MessageProcessor(users, this);
   private final BashBrush bashBrush = new BashBrush();
-  private final Scanner scanner;
+  private final Scanner scanner = new Scanner(System.in);
   private final PrintStream out = System.out;
+  private final Connection connection;
+  private final SessionProperties sessionProperties;
 
-  public ConsoleUi(Connection connection, InputStream in) {
-    this.scanner = new Scanner(in);
-    new Thread(new UserInputListener(connection, this)).start();
+  /**
+   * Initialize console ui and starts ui listener thread.
+   *
+   * @param connection        connection with server
+   * @param sessionProperties properties of current session
+   */
+  public ConsoleUi(Connection connection, SessionProperties sessionProperties) {
+    this.connection = connection;
+    this.sessionProperties = sessionProperties;
+    commandProcessor = new CommandProcessor(users, sessionProperties);
+    new Thread(new UserInputListener(connection, this, sessionProperties)).start();
   }
 
   @Override
@@ -57,7 +69,20 @@ public class ConsoleUi implements Ui {
   }
 
   @Override
-  public void onConnectionError(String error) {
+  public void onConnected() {
+    try {
+      printMessage("Connected to chat");
+      connection.sendMessage(new Message.MessageBuilder()
+          .messageType(1)
+          .author(sessionProperties.getUser())
+          .build());
+    } catch (IOException e) {
+      printMessage(e.getMessage());
+    }
+  }
 
+  @Override
+  public void onConnectionError(String error) {
+    printMessage(error);
   }
 }

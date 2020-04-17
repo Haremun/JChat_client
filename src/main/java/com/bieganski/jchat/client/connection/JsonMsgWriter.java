@@ -23,26 +23,9 @@ public class JsonMsgWriter extends MessageWriter {
     objectMapper = new ObjectMapper(jsonFactory);
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  void writeMessage(String msg) throws IOException {
-    if (!msg.isEmpty()) {
-      Message message = new Message.MessageBuilder()
-          .messageType(0)
-          .author(SessionProperties.USER)
-          .receiver(SessionProperties.RECEIVER)
-          .date(LocalDateTime.now().toString())
-          .message(msg)
-          .build();
-      log.debug("Message to send: " + message.toString());
-      objectMapper.writeValue(outputStream, message);
-    }
-  }
-
   @Override
   void writeMessage(Message msg) throws IOException {
     objectMapper.writeValue(outputStream, msg);
+    log.debug("Message to send: " + msg.toString());
   }
 }

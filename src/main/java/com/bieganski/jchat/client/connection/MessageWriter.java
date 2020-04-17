@@ -17,11 +17,10 @@ abstract class MessageWriter {
 
   /**
    * Sends not empty string to server.
-   * @param msg - message to send. Can't be empty or null.
+   *
+   * @param msg - not null message to send.
    * @throws IOException when socked is closed
    */
-  abstract void writeMessage(String msg) throws IOException;
-
   abstract void writeMessage(Message msg) throws IOException;
 
   boolean isShutDown() {

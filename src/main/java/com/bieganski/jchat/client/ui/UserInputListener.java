@@ -12,23 +12,26 @@ public class UserInputListener implements Runnable {
 
   private final Ui userUi;
   private final Connection connection;
+  private final SessionProperties sessionProperties;
   private boolean running = true;
 
-  public UserInputListener(Connection connection, Ui userUi) {
+  UserInputListener(Connection connection, Ui userUi, SessionProperties sessionProperties) {
     this.connection = connection;
     this.userUi = userUi;
+    this.sessionProperties = sessionProperties;
   }
 
   @Override
   public void run() {
     try {
       while (running) {
+        String messageText = userUi.getUserInput();
         connection.sendMessage(new Message.MessageBuilder()
             .messageType(0)
-            .author(SessionProperties.USER)
-            .receiver(SessionProperties.RECEIVER)
+            .author(sessionProperties.getUser())
+            .receiver(sessionProperties.getReceiver())
             .date(LocalDateTime.now().toString())
-            .message(userUi.getUserInput())
+            .message(messageText)
             .build());
       }
     } catch (IOException e) {
