@@ -6,7 +6,6 @@ import com.bieganski.jchat.client.ui.ConsoleUi;
 import com.bieganski.jchat.client.ui.Ui;
 import com.bieganski.jchat.client.utils.SessionProperties;
 import com.bieganski.jchat.client.utils.WebAddress;
-import java.io.IOException;
 
 /**
  * Chat application with tcp connection.
@@ -19,7 +18,7 @@ public class Main {
    *
    * @param args - no use of params now
    */
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) {
     SessionProperties sessionProperties = new SessionProperties(args[0]);
 
     Connection connectionManager = new ConnectionManager();
