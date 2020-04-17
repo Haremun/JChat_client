@@ -1,6 +1,9 @@
 package com.bieganski.jchat.client.connection;
 
+import com.bieganski.jchat.client.utils.ConnectionCallback;
+import com.bieganski.jchat.client.utils.Message;
 import com.bieganski.jchat.client.utils.WebAddress;
+import java.io.IOException;
 import java.net.Socket;
 
 /**
@@ -14,6 +17,10 @@ public abstract class Connection {
    * @param webAddress - contains server address and port
    */
   public abstract void connect(WebAddress webAddress);
+
+  public abstract void sendMessage(Message message) throws IOException;
+
+  public abstract void setConnectionCallback(ConnectionCallback connectionCallback);
 
   protected abstract void onConnected(Socket socket);
 

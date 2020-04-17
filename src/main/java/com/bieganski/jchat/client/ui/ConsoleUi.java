@@ -1,18 +1,24 @@
 package com.bieganski.jchat.client.ui;
 
+import com.bieganski.jchat.client.connection.Connection;
+import com.bieganski.jchat.client.utils.Message;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleUi implements Ui {
-  private final CommandProcessor commandProcessor = new CommandProcessor();
+  private final List<String> users = new LinkedList<>();
+  private final CommandProcessor commandProcessor = new CommandProcessor(users);
+  private final MessageProcessor messageProcessor = new MessageProcessor(users, this);
   private final BashBrush bashBrush = new BashBrush();
   private final Scanner scanner;
-  private final PrintStream out;
+  private final PrintStream out = System.out;
 
-  public ConsoleUi(PrintStream out, InputStream in) {
+  public ConsoleUi(Connection connection, InputStream in) {
     this.scanner = new Scanner(in);
-    this.out = out;
+    new Thread(new UserInputListener(connection, this)).start();
   }
 
   @Override
@@ -46,17 +52,12 @@ public class ConsoleUi implements Ui {
   }
 
   @Override
-  public void notifyAboutNewUser(String user) {
-    commandProcessor.addUser(user);
+  public void onReceivedMessage(Message message) {
+    messageProcessor.process(message);
   }
 
   @Override
-  public void updateUsers(String users) {
-    commandProcessor.setUsers(users);
-  }
+  public void onConnectionError(String error) {
 
-  @Override
-  public void removeUser(String user) {
-    commandProcessor.removeUser(user);
   }
 }

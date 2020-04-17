@@ -1,6 +1,7 @@
 package com.bieganski.jchat.client.connection;
 
-import com.bieganski.jchat.client.utils.UserProperties;
+import com.bieganski.jchat.client.utils.Message;
+import com.bieganski.jchat.client.utils.SessionProperties;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
@@ -8,7 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.net.Socket;
 import java.time.LocalDateTime;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -31,8 +31,8 @@ public class JsonMsgWriter extends MessageWriter {
     if (!msg.isEmpty()) {
       Message message = new Message.MessageBuilder()
           .messageType(0)
-          .author(UserProperties.USER)
-          .receiver(UserProperties.RECEIVER)
+          .author(SessionProperties.USER)
+          .receiver(SessionProperties.RECEIVER)
           .date(LocalDateTime.now().toString())
           .message(msg)
           .build();

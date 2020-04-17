@@ -1,7 +1,6 @@
 package com.bieganski.jchat.client.connection;
 
 import com.bieganski.jchat.client.utils.WebAddress;
-
 import java.io.IOException;
 import java.net.Socket;
 

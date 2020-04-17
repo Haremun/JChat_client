@@ -1,58 +1,63 @@
-package com.bieganski.jchat.client.connection;
+package com.bieganski.jchat.client.utils;
 
 import lombok.Getter;
 import lombok.ToString;
 
 @Getter
 @ToString
-class Message {
+public class Message {
   private int messageType;
   private String author;
   private String receiver;
   private String date;
   private String message;
 
-  //TODO wiki side for messages
   /**
    * Check wiki for information about messages.
-   * @see <a href="https://google.pl/">Wiki</a>
+   *
+   * @see <a href="https://github.com/Haremun/JChat_client/wiki/Messages">Wiki</a>
    */
   private Message() {
   }
 
-  static class MessageBuilder {
+  public static class MessageBuilder {
     private int messageType;
     private String author;
     private String receiver;
     private String date;
     private String message;
 
-    MessageBuilder messageType(int id) {
+    public MessageBuilder messageType(int id) {
       this.messageType = id;
       return this;
     }
 
-    MessageBuilder author(String author) {
+    public MessageBuilder author(String author) {
       this.author = author;
       return this;
     }
 
-    MessageBuilder receiver(String receiver) {
+    public MessageBuilder receiver(String receiver) {
       this.receiver = receiver;
       return this;
     }
 
-    MessageBuilder date(String date) {
+    public MessageBuilder date(String date) {
       this.date = date;
       return this;
     }
 
-    MessageBuilder message(String message) {
+    public MessageBuilder message(String message) {
       this.message = message;
       return this;
     }
 
-    Message build() {
+    /**
+     * Builds message.
+     *
+     * @return built message
+     */
+    public Message build() {
       Message messageObj = new Message();
       messageObj.messageType = this.messageType;
       messageObj.author = this.author;

@@ -1,11 +1,11 @@
 package com.bieganski.jchat.client.ui;
 
-import java.util.List;
+import com.bieganski.jchat.client.utils.ConnectionCallback;
 
 /**
  * User interface to communicate with application.
  */
-public interface Ui {
+public interface Ui extends ConnectionCallback {
 
   /**
    * Prints message on user interface.
@@ -28,10 +28,4 @@ public interface Ui {
    * @return String with user input
    */
   String getUserInput();
-
-  void notifyAboutNewUser(String user);
-
-  void updateUsers(String users);
-
-  void removeUser(String user);
 }

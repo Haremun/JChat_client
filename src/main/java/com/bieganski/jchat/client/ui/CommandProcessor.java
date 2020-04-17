@@ -1,40 +1,29 @@
 package com.bieganski.jchat.client.ui;
 
-import com.bieganski.jchat.client.utils.UserProperties;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
+import static com.bieganski.jchat.client.ui.ConsoleCommands.LIST;
+import static com.bieganski.jchat.client.ui.ConsoleCommands.PRIVATE;
+
+import com.bieganski.jchat.client.utils.SessionProperties;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static com.bieganski.jchat.client.ui.ConsoleCommands.*;
+class CommandProcessor {
+  private final List<String> usersCollection;
 
-public class CommandProcessor {
-  private List<String> users = new LinkedList<>();
+  CommandProcessor(List<String> usersCollection) {
+    this.usersCollection = usersCollection;
+  }
 
   String processCommand(String cmd) {
     String[] command = cmd.split(" ");
 
     //TODO it's temporary version, remove if
     if (command[0].equals(PRIVATE.getCommand())) {
-      UserProperties.RECEIVER = command[1];
+      SessionProperties.RECEIVER = command[1];
       return String.format("You are writing to %s", command[1]);
-    }
-    if (command[0].equals(LIST.getCommand())) {
-      return String.join("\n", users);
+    } else if (command[0].equals(LIST.getCommand())) {
+      return String.join("\n", usersCollection);
     }
     return "There is no such command!";
-  }
-
-  void addUser(String user) {
-    users.add(user);
-  }
-  void removeUser(String user){
-    users.remove(user);
-  }
-
-  void setUsers(String users) {
-    this.users = new LinkedList<>(Arrays.asList(users.split(",")));
   }
 }

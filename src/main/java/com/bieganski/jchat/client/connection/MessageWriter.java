@@ -1,5 +1,6 @@
 package com.bieganski.jchat.client.connection;
 
+import com.bieganski.jchat.client.utils.Message;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -17,7 +18,7 @@ abstract class MessageWriter {
   /**
    * Sends not empty string to server.
    * @param msg - message to send. Can't be empty or null.
-   * @throws IOException
+   * @throws IOException when socked is closed
    */
   abstract void writeMessage(String msg) throws IOException;
 
