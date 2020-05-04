@@ -2,10 +2,10 @@ package com.bieganski.jchat.client.connection;
 
 import com.bieganski.jchat.client.utils.ConnectionCallback;
 import com.bieganski.jchat.client.utils.Message;
-import com.bieganski.jchat.client.utils.SessionProperties;
 import com.bieganski.jchat.client.utils.WebAddress;
 import java.io.IOException;
 import java.net.Socket;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -38,9 +38,12 @@ public class ConnectionManager extends Connection {
   @Override
   protected void onConnected(Socket socket) {
     try {
-      messageWriter = new JsonMsgWriter(socket);
+      messageWriter = new JsonMsgWriter(socket, new ObjectMapperFactory().getUncloseObjectMapper());
 
-      JsonMsgListener msgListener = new JsonMsgListener(socket.getInputStream());
+      JsonMsgListener msgListener;
+      msgListener = new JsonMsgListener(socket.getInputStream(),
+          new ObjectMapperFactory().getUncloseObjectMapper());
+
       tcpListener = new TcpListener(this, msgListener);
       new Thread(tcpListener,
           "Listener thread").start();

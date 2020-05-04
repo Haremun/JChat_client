@@ -6,10 +6,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 
+//TODO Interface instead of abstract class
 abstract class MessageWriter {
   protected OutputStream outputStream;
   private final Socket socket;
 
+  //TODO Remove new from constructor
   MessageWriter(Socket socket) throws IOException {
     this.outputStream = new DataOutputStream(socket.getOutputStream());
     this.socket = socket;

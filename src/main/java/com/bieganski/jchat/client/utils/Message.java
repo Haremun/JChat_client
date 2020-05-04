@@ -1,10 +1,12 @@
 package com.bieganski.jchat.client.utils;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
 @Getter
 @ToString
+@EqualsAndHashCode
 public class Message {
   private int messageType;
   private String author;

@@ -22,6 +22,7 @@ public abstract class Connection {
 
   public abstract void setConnectionCallback(ConnectionCallback connectionCallback);
 
+  //TODO Protected moved to ConnectionCallback
   protected abstract void onConnected(Socket socket);
 
   protected abstract void onConnectionError(String message);

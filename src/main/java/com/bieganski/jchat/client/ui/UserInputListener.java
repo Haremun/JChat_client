@@ -26,13 +26,15 @@ public class UserInputListener implements Runnable {
     try {
       while (running) {
         String messageText = userUi.getUserInput();
-        connection.sendMessage(new Message.MessageBuilder()
-            .messageType(0)
-            .author(sessionProperties.getUser())
-            .receiver(sessionProperties.getReceiver())
-            .date(LocalDateTime.now().toString())
-            .message(messageText)
-            .build());
+        if (!messageText.isEmpty()) {
+          connection.sendMessage(new Message.MessageBuilder()
+              .messageType(0)
+              .author(sessionProperties.getUser())
+              .receiver(sessionProperties.getReceiver())
+              .date(LocalDateTime.now().toString())
+              .message(messageText)
+              .build());
+        }
       }
     } catch (IOException e) {
       userUi.printMessage("Error writing message");

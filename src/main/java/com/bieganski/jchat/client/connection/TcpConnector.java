@@ -9,6 +9,7 @@ class TcpConnector implements Runnable {
   private final Connection connectionCallback;
   private final WebAddress webAddress;
 
+  //TODO ConnectionCallback instead of connection
   TcpConnector(WebAddress webAddress, Connection connectionCallback) {
     this.webAddress = webAddress;
     this.connectionCallback = connectionCallback;
